@@ -24,7 +24,7 @@ func main() {
 	defer t.Stop()
 
 	for {
-		if ok := pollOnce(clients); !ok {
+		if ok := pollOnce(client); !ok {
 			errCount++
 		} else {
 			errCount = 0
@@ -38,7 +38,7 @@ func main() {
 }
 
 func pollOnce(client *http.Client) bool {
-	resp, err := clients.Get(url)
+	resp, err := client.Get(url)
 	if err != nil {
 		return false
 	}
