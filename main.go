@@ -79,32 +79,31 @@ func pollOnce(client *http.Client) bool {
 	netUsed := nums[6]
 
 	if load > 30 {
-        fmt.Printf("Load Average is too high: %g\n", load)
-    }
+		fmt.Printf("Load Average is too high: %g\n", load)
+	}
 
-    if memTotal > 0 {
-        memPct := int((memUsed / memTotal) * 100) 
-        if memPct > 80 {
-            fmt.Printf("Memory usage too high: %d%%\n", memPct)
-        }
-    }
+	if memTotal > 0 {
+		memPct := int((memUsed / memTotal) * 100)
+		if memPct > 80 {
+			fmt.Printf("Memory usage too high: %d%%\n", memPct)
+		}
+	}
 
-    
-    if diskTotal > 0 {
-        usedPct := (diskUsed / diskTotal) * 100
-        if usedPct > 90 {
-            freeMB := int64((diskTotal - diskUsed) / (1024 * 1024)) 
-            fmt.Printf("Free disk space is too low: %d Mb left\n", freeMB)
-        }
-    }
+	if diskTotal > 0 {
+		usedPct := (diskUsed / diskTotal) * 100
+		if usedPct > 90 {
+			freeMB := int64((diskTotal - diskUsed) / (1024 * 1024))
+			fmt.Printf("Free disk space is too low: %d Mb left\n", freeMB)
+		}
+	}
 
-    
-    if netBW > 0 {
-        usedPct := (netUsed / netBW) * 100
-        if usedPct > 90 {
-            freeMbit := int64((netBW - netUsed) / 1_000_000) // целая часть
-            fmt.Printf("Network bandwidth usage high: %d Mbit/s available\n", freeMbit)
-        }
-    }
+	if netBW > 0 {
+		usedPct := (netUsed / netBW) * 100
+		if usedPct > 90 {
+			freeMbit := int64((netBW - netUsed) / 1_000_000) // целая часть
+			fmt.Printf("Network bandwidth usage high: %d Mbit/s available\n", freeMbit)
+		}
+	}
 
-    return true
+	return true
+}
