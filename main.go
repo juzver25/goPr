@@ -31,7 +31,7 @@ func main() {
 		}
 		if errCount >= maxErrorReports {
 			fmt.Println("Unable to fetch server statistic.")
-
+			errCount = 0
 		}
 		<-t.C
 	}
