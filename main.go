@@ -16,6 +16,7 @@ const (
 	maxErrorReports = 3
 )
 
+// ...
 func main() {
 	client := &http.Client{Timeout: httpTimeout}
 	errCount := 0
