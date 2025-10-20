@@ -16,6 +16,7 @@ const (
 	maxErrorReports = 3
 )
 
+// ...
 func main() {
 	client := &http.Client{Timeout: httpTimeout}
 	errCount := 0
@@ -31,7 +32,7 @@ func main() {
 		}
 		if errCount >= maxErrorReports {
 			fmt.Println("Unable to fetch server statistic.")
-
+			errCount = 0
 		}
 		<-t.C
 	}
@@ -79,32 +80,29 @@ func pollOnce(client *http.Client) bool {
 	netUsed := nums[6]
 
 	if load > 30 {
-
 		fmt.Printf("Load Average is too high: %g\n", load)
 	}
 
 	if memTotal > 0 {
-		memPct := (memUsed / memTotal) * 100
+		memPct := int((memUsed / memTotal) * 100)
 		if memPct > 80 {
-			fmt.Printf("Memory usage too high: %.0f%%\n", memPct)
+			fmt.Printf("Memory usage too high: %d%%\n", memPct)
 		}
 	}
 
 	if diskTotal > 0 {
 		usedPct := (diskUsed / diskTotal) * 100
 		if usedPct > 90 {
-			freeBytes := diskTotal - diskUsed
-			freeMB := freeBytes / (1024 * 1024)
-			fmt.Printf("Free disk space is too low: %.0f Mb left\n", freeMB)
+			freeMB := int64((diskTotal - diskUsed) / (1024 * 1024))
+			fmt.Printf("Free disk space is too low: %d Mb left\n", freeMB)
 		}
 	}
 
 	if netBW > 0 {
 		usedPct := (netUsed / netBW) * 100
 		if usedPct > 90 {
-			freeBytesPerSec := netBW - netUsed
-			freeMbit := (freeBytesPerSec * 8) / 1_000_000
-			fmt.Printf("Network bandwidth usage high: %.0f Mbit/s available\n", freeMbit)
+			freeMbit := int64((netBW - netUsed) / 1_000_000) // целая часть
+			fmt.Printf("Network bandwidth usage high: %d Mbit/s available\n", freeMbit)
 		}
 	}
 
